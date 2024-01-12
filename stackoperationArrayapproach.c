@@ -1,3 +1,4 @@
+// array repreaentation of stack
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,8 +7,7 @@ struct stack{
     int top;
     int *arr;
 };
-
-//isempty
+//stack is empty or not
 int isEmpty(struct stack *sp){
     if (sp->top == -1)
     {
@@ -16,7 +16,7 @@ int isEmpty(struct stack *sp){
         return 0;
     }
 }
-//isfull
+//stack is full or not
 int isFull(struct stack *sp){
     if (sp->top == sp->size-1)
     {
@@ -25,74 +25,55 @@ int isFull(struct stack *sp){
         return 0;
     }
 }
-//stack element traversasl
-void stackTraversal(struct stack *sp){
-    printf("element of the stack from top to bottom are: **(where ) reperesents no item present in the stack)\n");
-    for (int i = sp->size-1; i >= 0  ; i--)
-    {
-        printf("%d\n", sp->arr[i]);
-    }
-   printf("\n"); 
-}
-//push recursivly
-void push_recursive(struct stack *sp){
-    //base case
+//push operation
+void push(struct stack *sp, int elem){
     if (isFull(sp))
     {
-        return;
-    }
-    int data;
-    printf("enter data: \n");
-    scanf("%d", &data);
-    if (data != -1)
-    {
-      sp->top++;
-      sp->arr[sp->top] = data;
-      push_recursive(sp);
+        printf("stack is overflowing %d can not be pushed\n", elem);
+    }else{
+        sp->top++;
+        sp->arr[sp->top] = elem;
+        printf("%d is pushed to the stack\n", elem);
     }  
 }
-//pop  recursively
-void pop(struct stack *sp){
-    //base case
+//pop operation
+int pop(struct stack *sp){
     if (isEmpty(sp))
     {
-        printf("no element to pop\n");
-        return;
+        printf("stack is underflowing || no element to be deleted \n");
+    }else{
+        int val = sp->arr[sp->top];
+        sp->top--;
+        return val;
     }
-    int val = sp->arr[sp->top];
-    sp->top--;
-    printf("%d is popped from the stack\n", val);
-    pop(sp);   
 }
 
-//stack top
+//stacktop
 int stackTop(struct stack *sp){
     if (isEmpty(sp))
     {
-        printf("stack is underflowing, no item present in the stack\n");
+        printf("there is no element in the stack\n");
     }else{
         return sp->arr[sp->top];
     }
 }
-
 //stack bottom
 int stackBottom(struct stack *sp){
     if (isEmpty(sp))
     {
-        printf("stack is underflowing, bo item present in the stack\n ");
+        printf("there is no element in the stack\n");
     }else{
         return sp->arr[0];
     }
 }
-
 //peek operation
-int peek(struct stack *sp, int position){
-    int spIndex = sp->top-position+1;
-    if (spIndex < 0)
+int peekStack(struct stack *sp, int postition){
+    int arrIndex = sp->top-postition+1;
+    if (arrIndex < 0)
     {
-        printf("not a valid index\n");
+        printf("not a valid position\n");
     }else{
-        return sp->arr[spIndex];
+        return sp->arr[arrIndex];
     }
     
 }
@@ -101,41 +82,50 @@ int main()
 {
     struct stack *sp = (struct stack *) malloc(sizeof(struct stack));
     sp->top = -1;
-    sp->size = 10;
-    sp->arr = (int *) calloc(sp->size, sizeof(int));
-    
+    sp->size = 5;
+    sp->arr = (int *) malloc(sp->size*sizeof(int));
+
     if (isEmpty(sp) == 1)
     {
-        printf("stack is underflowing || no element to be deleted\n");
+        printf("stack is underflowing\n");
     }else{
         printf("stack is not empty");
     }
+
     if (isFull(sp) == 1)
     {
-        printf("stack is overflowing || no element can not be inserted\n");
+        printf("stack is overflowing\n");
     }else{
         printf("stack is not full\n");
     }
-    //push recursivly
-    push_recursive(sp);
-    
-    //stack element traversal
-    stackTraversal(sp);
+    push(sp, 10);
+    push(sp, 11);
+    push(sp, 12);
+    push(sp, 13);
+    push(sp, 14);
+    push(sp, 15);
+    push(sp, 16);
 
-    //stack top
-    printf("%d is present to the top of the stack \n", stackTop(sp));
 
-    //stack bottom
-    printf("%d is present to the bottom of the stack \n", stackBottom(sp));
+    printf("%d element is present in the top of the stack\n", stackTop(sp));
+    printf("%d element is present in the bottom of the stack\n", stackBottom(sp));
 
-    //peek operation
-    int position;
-    printf("enter the position that you want to peek\n");
-    scanf("%d", &position);
-    printf("%d is found at %d position\n", peek(sp, position), position);
+    printf("peek operation!!!\n");
+    int pos;
+    printf("enter the position from where you want to peek eleemnt\n");
+    scanf("%d", &pos);
+    printf("%d is found at %d position", peekStack(sp, pos), pos);
 
-    //pop recursivly
-    pop(sp);
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
+    printf("%d is popped from the stack \n", pop(sp));
 
     return 0;
 }
